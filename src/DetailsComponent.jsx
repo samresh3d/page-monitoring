@@ -1,6 +1,7 @@
 import React from "react";
 import IndicatorComponent from "./IndicatorComponent";
 import { useState } from "react";
+import Last28DaysDataTooltip from "./Last28DaysDataTooltip";
 
 const DetailsComponent = ({
   url,
