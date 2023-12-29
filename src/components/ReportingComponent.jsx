@@ -1,24 +1,29 @@
 import React from "react";
-import useApiData from "./useApiData";
+import useApiData from "../hooks/useApiData";
 import DetailsComponent from "./DetailsComponent";
 
 const ReportingComponent = ({ pageName, apiUrl, isMobileView }) => {
   const { apiData, loading, error } = useApiData(apiUrl);
+  const urlForHistoricalData = `${apiUrl}&days=5`;
+  const {
+    apiData: historyData,
+    loading: historyDataLoading,
+    error: historydataError,
+  } = useApiData(urlForHistoricalData);
 
   const renderContent = () => {
-    if (loading) {
+    if (loading || historyDataLoading) {
       return (
         <p className="text-center p-10">Loading...{pageName.toLowerCase()}</p>
       );
     }
 
-    if (error) {
+    if (error || historydataError) {
       return (
         <p className="text-center">Error fetching data: {error.message}</p>
       );
     }
-
-    const { desktop: desktopData, mobile: mobileData } = apiData;
+    const { desktop: desktopData, mobile: mobileData } = apiData[0];
     const dataToShow = isMobileView ? mobileData : desktopData;
 
     const pageUrl = {
@@ -32,7 +37,7 @@ const ReportingComponent = ({ pageName, apiUrl, isMobileView }) => {
     return (
       <DetailsComponent
         url={pageUrl[pageName]}
-        requestTime={apiData.reportTime.split("Report from")[1]}
+        requestTime={apiData[0].reportTime.split("Report from")[1]}
         fcp={dataToShow.firstContentfulPaint.split("s")[0]}
         lcp={dataToShow.largestContentfulPaint.split("s")[0]}
         tbt={dataToShow.totalBlockingTime.split("ms")[0]}
@@ -42,6 +47,8 @@ const ReportingComponent = ({ pageName, apiUrl, isMobileView }) => {
         seo={dataToShow.sEO}
         data28Days={dataToShow.latest28DayCollection}
         bestPractice={dataToShow.bestPractices}
+        historyData={historyData}
+        isMobileView = {isMobileView}
       />
     );
   };

@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
 const IndicatorComponent = ({ type, value, tooltipText }) => {
-  const [isTooltipVisible, setTooltipVisible] = useState(false);
 
   const getCircleColor = (value) => {
     if (value < 45) {
@@ -14,22 +13,18 @@ const IndicatorComponent = ({ type, value, tooltipText }) => {
   };
 
   const percentageToDashArray = (percentage) => {
-    // Convert percentage to dash array value
     const totalLength = 182.212373908208; // Total length of the circle
     const dashArrayValue = (percentage / 100) * totalLength;
-
     return `${dashArrayValue} ${totalLength - dashArrayValue}`;
   };
 
   const circleColor = getCircleColor(value);
 
   return (
-    <div className="place-self-center relative">
+    <div className=" relative">
       <div
-        className="flex h-full w-full flex-col items-center justify-center cursor-pointer transition-transform transform-gpu duration-200 ease-in-out"
+        className="flex m-auto h-full w-full flex-col items-center justify-center transition-transform transform-gpu duration-200 ease-in-out"
         style={{ width: "42px", height: "42px" }}
-        onMouseEnter={() => setTooltipVisible(true)}
-        onMouseLeave={() => setTooltipVisible(false)}
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" strokeWidth="4" className="overflow-visible" fill="none" height="42" width="42">
           <circle
@@ -91,11 +86,6 @@ const IndicatorComponent = ({ type, value, tooltipText }) => {
           </div>
         </div>
       </div>
-      {isTooltipVisible && (
-        <div className="absolute bg-gray-800 text-white p-2 rounded-md text-xs mt-0 z-10 transition-opacity opacity-100">
-          {tooltipText || `${String(type).toUpperCase()}`}
-        </div>
-      )}
     </div>
   );
 };
