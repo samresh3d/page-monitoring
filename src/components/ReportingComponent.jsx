@@ -29,9 +29,9 @@ const ReportingComponent = ({ pageName, apiUrl, isMobileView }) => {
     const pageUrl = {
       homePage: "https://www.maxlifeinsurance.com",
       termLead:
-        "https://www.maxlifeinsurance.com/term-insurance-plans/premium-calculator",
+        "term-insurance-plans/premium-calculator?from=home",
       savingLead:
-        "https://www.maxlifeinsurance.com/investment-plans/investment-calculator",
+        "investment-plans/investment-calculator?from=home",
     };
 
     return (
