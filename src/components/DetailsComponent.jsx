@@ -17,20 +17,10 @@ const DetailsComponent = ({
   data28Days,
   historyData,
   isMobileView,
+  detailedReportUrl,
 }) => {
 
-  const data = historyData;
-
-  function addTimeToDateString(dateString) {
-    const originalDate = new Date(dateString);
-    const updatedDate = new Date(originalDate.getTime() + (5 * 60 + 30) * 60000);
-    const options = { hour: 'numeric', minute: 'numeric', second: 'numeric'};
-    const updatedTimeString = updatedDate.toLocaleTimeString('en-US', options);
-    return updatedTimeString;
-  }
-  
-  const updatedTimeString = addTimeToDateString(requestTime);
-  
+  const data = historyData;  
 
   return (
     <div className="mx-auto w-full max-w-6xl flex-1">
@@ -52,13 +42,13 @@ const DetailsComponent = ({
                   </dt>
                   <dd className="text-sm text-gray-600">
                     <span>
-                      <span>{updatedTimeString}</span>
+                      <span>{requestTime}</span>
                     </span>
                   </dd>
                 </div>
                 <div  className="flex gap-5">
                 <Latest28DaysDataView data28Days={data28Days} />
-                <HistoryDataView data={data} isMobileView={isMobileView}/>
+                <HistoryDataView data={data} isMobileView={isMobileView} detailedReportUrl = {detailedReportUrl}/>
                 </div>
               </dl>
             </div>

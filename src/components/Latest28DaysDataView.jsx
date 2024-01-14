@@ -12,8 +12,7 @@ const Latest28DaysDataView = ({ data28Days }) => {
     <div className="sm:col-span-1">
       <img
         className="top-0 right-0 cursor-pointer"
-        onMouseOver={handleShowDataToggle}
-        onMouseOut={handleShowDataToggle}
+        onClick={handleShowDataToggle}
         alt="28 Days report"
         loading="lazy"
         width="25"

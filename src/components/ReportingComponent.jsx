@@ -4,7 +4,7 @@ import DetailsComponent from "./DetailsComponent";
 
 const ReportingComponent = ({ pageName, apiUrl, isMobileView }) => {
   const { apiData, loading, error } = useApiData(apiUrl);
-  const urlForHistoricalData = `${apiUrl}&days=5`;
+  const urlForHistoricalData = `${apiUrl}&days=10`;
   const {
     apiData: historyData,
     loading: historyDataLoading,
@@ -23,8 +23,9 @@ const ReportingComponent = ({ pageName, apiUrl, isMobileView }) => {
         <p className="text-center">Error fetching data: {error.message}</p>
       );
     }
-    const { desktop: desktopData, mobile: mobileData } = apiData[0];
+    const { desktop: desktopData, mobile: mobileData, urls: detailedReportUrls } = apiData[0];
     const dataToShow = isMobileView ? mobileData : desktopData;
+    const detailedReportUrl = isMobileView ? detailedReportUrls.mobile : detailedReportUrls.desktop;
 
     const pageUrl = {
       homePage: "https://www.maxlifeinsurance.com",
@@ -37,10 +38,10 @@ const ReportingComponent = ({ pageName, apiUrl, isMobileView }) => {
     return (
       <DetailsComponent
         url={pageUrl[pageName]}
-        requestTime={apiData[0].reportTime.split("Report from")[1]}
-        fcp={dataToShow.firstContentfulPaint.split("s")[0]}
-        lcp={dataToShow.largestContentfulPaint.split("s")[0]}
-        tbt={dataToShow.totalBlockingTime.split("ms")[0]}
+        requestTime={apiData[0].iSTime}
+        fcp={dataToShow.firstContentfulPaint}
+        lcp={dataToShow.largestContentfulPaint}
+        tbt={dataToShow.totalBlockingTime}
         cls={dataToShow.cumulativeLayoutShift}
         performance={dataToShow.performance}
         accessibility={dataToShow.accessibility}
@@ -49,6 +50,7 @@ const ReportingComponent = ({ pageName, apiUrl, isMobileView }) => {
         bestPractice={dataToShow.bestPractices}
         historyData={historyData}
         isMobileView = {isMobileView}
+        detailedReportUrl = {detailedReportUrl}
       />
     );
   };
